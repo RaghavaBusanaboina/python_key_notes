@@ -1,0 +1,109 @@
+
+'''
+Class Variables     --- 1st preference
+Instance Variables  --- 2nd preference
+
+    Variables 
+        Instance V 
+        Class V
+    Methods 
+        Instance M 
+        Class M
+
+        Instance V  --> Instance M     TRUE
+        Class V     --> Class M        TRUE
+
+        Class V     ---> Instance M    TRUE
+        Instance V  ---> Class M       FALSE
+'''
+
+print("hello world")
+class Employee:
+    '''
+    This class is to get employee information
+    '''
+    # Class Variable
+    emp_count = 0     #modifiable + sharable
+    office_location = "Whitefield"  # sharable 
+    company_name = "ORACLE"         # sharable
+
+    # constructor to initialize instance variables
+    def __init__(self, id, name, sal):
+        self.id = id
+        self.name = name
+        self.sal = sal
+        Employee.emp_count += 1
+        print("Employee count ::  ",Employee.emp_count)
+
+    def get_emp_details(self):
+        print("EMP DETAILS ARE : ",self.id," ",self.name," ",self.sal)
+        print("Emp Count ", Employee.emp_count)
+
+
+    @classmethod
+    def get_emp_count(cls):
+        print("Total Employees : ",cls.emp_count, "@",cls.office_location,"@",cls.company_name," ")
+
+
+Employee.get_emp_count()
+
+
+jeevan = Employee(10,"Jeevan Sai",10000)
+
+jeevan.get_emp_details() # OR 
+Employee.get_emp_details(jeevan)
+
+
+Employee.get_emp_details(jeevan)
+
+Employee.get_emp_count()
+
+
+prasanna = Employee(11,"Prasanna Kumar",20000)
+
+prasanna.get_emp_details()
+Employee.get_emp_count()
+
+print("------------------------------------")
+
+'''
+1. Pyhton Interpreter will load the respective class(During module execution)
+        1.1 It will initialize the class variables by creating memory for variables
+
+During object creation
+    2. __new__ function will be called,receives classname,arguements like (num,string,list,tup,set -- dict)
+3.Will create empty object and calls __init__ by passing object(instance) and other arguements
+5. Initialize instance variables inside __init__ method
+
+IV ==> IM  YES
+CV ==> CM  YES
+CV ==> IM  YES
+IV ==> CM   NO
+'''
+
+'''
+class var                 instance var
+-------------------------- ----------------------------
+- while loading class        - at the time of object creation
+- class methods ,i m         - instance methods
+
+++ Within instance methods we can use class variables*****
+ within class methods we can't use instance varibales
+'''
+
+# Built in class attributes '''
+print("Employee.__dict__:", Employee.__dict__)
+print("Employee.__doc__:", Employee.__doc__)
+print("Employee.__name__:", Employee.__name__)
+print("Employee.__module__:", Employee.__module__)
+print("Employee.__bases__:", Employee.__bases__)
+
+print("----------------------------------")
+
+# object releated Functions   C R U D
+print("Does Jeevan has salary : ",hasattr(jeevan, "sal"))    # R 
+print("Get name of Jeevan     : ",getattr(jeevan, "name"))   # R
+print("Set name of Jeevan      : ",setattr(jeevan, "name", "MAD"))  # U
+print("Get name of Jeevan     : ",getattr(jeevan, "name"))
+print("Delete Jeevan  salary  : ",delattr(jeevan, "sal"))    # D
+print("Delete Jeevan  salary  : ",getattr(jeevan, "sal"))
